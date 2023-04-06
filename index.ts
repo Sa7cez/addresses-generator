@@ -27,21 +27,26 @@ export const generateWallets = (count = 5, regex = /.*/) =>
   })
 
 const main = async () => {
-  const count = parseFloat(process.argv[2]) || 1
+  await fs.mkdir('./wallets').catch((e) => {})
+  const count = parseFloat(process.argv[2]) || 10
   const regex = RegExp(process.argv[3]) || /.*/
   const filename = 'Ferm_' + Date.now()
+
+  log(`\nStart generating ${count} addresses with regex ${regex}\n`)
 
   await fs.writeFile(
     `./wallets/${filename}.csv`,
     'Mnemonic;Address;Private Key;Aptos address;Aptos Private Key;Sui Address;Sui Private Key;Starknet Argent Address;Starknet Private Key\n'
   )
+
   await generateWallets(count, regex).map((wallet) => {
     fs.appendFile(
       `./wallets/${filename}.csv`,
       `${wallet.mnemonic};${wallet.evm.address};${wallet.evm.key};${wallet.aptos.address};${wallet.aptos.key};${wallet.sui.address};${wallet.sui.key};${wallet.starknet.address};${wallet.starknet.key}\n`
     )
-    log('New wallets generated in /wallets/' + filename + '.csv')
   })
+
+  log('\nNew wallets generated in /wallets/' + filename + '.csv\n')
 }
 
 main()

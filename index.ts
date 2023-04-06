@@ -29,15 +29,15 @@ export const generateWallets = (count = 5, regex = /.*/) =>
 const main = async () => {
   const count = parseFloat(process.argv[2]) || 1
   const regex = RegExp(process.argv[3]) || /.*/
-  log(regex)
   const filename = 'Ferm_' + Date.now()
+
   await fs.appendFile(
-    `wallets/${filename}.csv`,
+    `./wallets/${filename}.csv`,
     'Mnemonic;Address;Private Key;Aptos address;Aptos Private Key;Sui Address;Sui Private Key;Starknet Argent Address;Starknet Private Key\n'
   )
   await generateWallets(count, regex).map((wallet) => {
     fs.appendFile(
-      `wallets/${filename}.csv`,
+      `./wallets/${filename}.csv`,
       `${wallet.mnemonic};${wallet.evm.address};${wallet.evm.key};${wallet.aptos.address};${wallet.aptos.key};${wallet.sui.address};${wallet.sui.key};${wallet.starknet.address};${wallet.starknet.key}\n`
     )
   })

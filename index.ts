@@ -31,7 +31,7 @@ const main = async () => {
   const regex = RegExp(process.argv[3]) || /.*/
   const filename = 'Ferm_' + Date.now()
 
-  await fs.appendFile(
+  await fs.writeFile(
     `./wallets/${filename}.csv`,
     'Mnemonic;Address;Private Key;Aptos address;Aptos Private Key;Sui Address;Sui Private Key;Starknet Argent Address;Starknet Private Key\n'
   )
@@ -40,6 +40,7 @@ const main = async () => {
       `./wallets/${filename}.csv`,
       `${wallet.mnemonic};${wallet.evm.address};${wallet.evm.key};${wallet.aptos.address};${wallet.aptos.key};${wallet.sui.address};${wallet.sui.key};${wallet.starknet.address};${wallet.starknet.key}\n`
     )
+    log('New wallets generated in /wallets/' + filename + '.csv')
   })
 }
 

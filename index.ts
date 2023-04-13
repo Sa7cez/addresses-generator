@@ -18,9 +18,9 @@ export const generateWallets = (count = 5, regex = /.*/) =>
             address: wallet.address,
             key: wallet.privateKey
           },
-          aptos: create.aptos(phrase, 1),
-          sui: create.sui(phrase, 1),
-          starknet: create.starknet(phrase, 1)
+          aptos: create.aptos(phrase, 0),
+          sui: create.sui(phrase, 0),
+          starknet: create.starknet(phrase, 0)
         }
       }
     }

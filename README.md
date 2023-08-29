@@ -1,6 +1,6 @@
 # Address generator
 
-The script allows you to generate addresse in EVM, Aptos, Sui and Starknet.
+The script allows you to generate mnemonic-based addresses in EVM, Aptos and Starknet.
 
 ## Setup bot
 

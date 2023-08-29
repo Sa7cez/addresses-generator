@@ -1,4 +1,4 @@
-import { Wallet } from 'ethers'
+import { AddressLike, Mnemonic, Wallet } from 'ethers'
 import * as fs from 'fs/promises'
 import * as create from './generator'
 
@@ -10,7 +10,7 @@ export const generateWallets = (count = 5, regex = /.*/) =>
     while (!generated) {
       const wallet = Wallet.createRandom()
       log(wallet.address)
-      if (regex.test(wallet.address)) {
+      if (wallet.mnemonic && regex.test(wallet.address)) {
         const phrase = wallet.mnemonic.phrase
         return {
           mnemonic: phrase,
@@ -28,9 +28,10 @@ export const generateWallets = (count = 5, regex = /.*/) =>
 
 const main = async () => {
   await fs.mkdir('./wallets').catch((e) => {})
+
   const count = parseFloat(process.argv[2]) || 10
   const regex = RegExp(process.argv[3]) || /.*/
-  const filename = 'Ferm_' + Date.now()
+  const filename = 'Ferm-' + new Date().toISOString()
 
   log(`\nStart generating ${count} addresses with regex ${regex}\n`)
 
@@ -39,7 +40,7 @@ const main = async () => {
     'Mnemonic;Address;Private Key;Aptos address;Aptos Private Key;Sui Address;Sui Private Key;Starknet Argent Address;Starknet Private Key\n'
   )
 
-  await generateWallets(count, regex).map((wallet) => {
+  await generateWallets(count, regex).map((wallet: any) => {
     fs.appendFile(
       `./wallets/${filename}.csv`,
       `${wallet.mnemonic};${wallet.evm.address};${wallet.evm.key};${wallet.aptos.address};${wallet.aptos.key};${wallet.sui.address};${wallet.sui.key};${wallet.starknet.address};${wallet.starknet.key}\n`

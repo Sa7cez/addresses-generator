@@ -51,7 +51,7 @@ export const starknet = (
   wproxy = '0x25ec026985a3bf9d0cc1fe17326b245dfdc3ff89b8fde106542a3ea56c5a918'
 ) => {
   const ethWallet = Wallet.fromPhrase(Mnemonic.fromPhrase(mnemonic).phrase)
-  const getGroundKey = (index, ethPrivateKey: string) => {
+  const getGroundKey = (index: number, ethPrivateKey: string) => {
     const masterNode = HDNodeWallet.fromSeed(toBeHex(BigInt(ethPrivateKey)))
     const childNode = masterNode.derivePath(`m/44'/9004'/0'/0/${index}`)
     const groundKey = ec.starkCurve.grindKey(childNode.privateKey)
